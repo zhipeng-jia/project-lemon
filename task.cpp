@@ -25,11 +25,11 @@ Task::Task(QObject *parent) :
     QObject(parent)
 {
     taskType = Traditional;
-    comparisonMode = LineByLineMode;
+    comparisonMode = IgnoreSpacesMode;
     diffArguments = "--ignore-space-change --text --brief";
     realPrecision = 3;
-    standardInputCheck = false;
-    standardOutputCheck = false;
+    standardInputCheck = true;
+    standardOutputCheck = true;
 }
 
 const QList<TestCase*>& Task::getTestCaseList() const

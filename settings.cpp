@@ -288,7 +288,7 @@ void Settings::loadSettings()
     settings.beginGroup("GeneralSettings");
     defaultFullScore = settings.value("DefaultFullScore", 10).toInt();
     defaultTimeLimit = settings.value("DefaultTimeLimit", 1000).toInt();
-    defaultMemoryLimit = settings.value("DefaultMemoryLimit", 64).toInt();
+    defaultMemoryLimit = settings.value("DefaultMemoryLimit", 256).toInt();
     compileTimeLimit = settings.value("CompileTimeLimit", 10000).toInt();
     specialJudgeTimeLimit = settings.value("SpecialJudgeTimeLimit", 10000).toInt();
     fileSizeLimit = settings.value("FileSizeLimit", 50).toInt();

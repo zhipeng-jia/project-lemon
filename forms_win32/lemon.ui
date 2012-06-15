@@ -20,7 +20,7 @@
    <string>Lemon</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
+   <iconset resource="../resource.qrc">
     <normaloff>:/icon/icon.png</normaloff>:/icon/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -223,7 +223,7 @@
      <x>0</x>
      <y>0</y>
      <width>725</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -249,6 +249,7 @@
     <addaction name="addTasksAction"/>
     <addaction name="makeSelfTestAction"/>
     <addaction name="exportAction"/>
+    <addaction name="generateReportAction"/>
    </widget>
    <widget class="QMenu" name="toolsMenu">
     <property name="title">
@@ -349,6 +350,14 @@
     <string>&amp;Export Result</string>
    </property>
   </action>
+  <action name="generateReportAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Generate Report</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -384,7 +393,7 @@
   <tabstop>resultViewer</tabstop>
  </tabstops>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="../resource.qrc"/>
  </resources>
  <connections/>
 </ui>

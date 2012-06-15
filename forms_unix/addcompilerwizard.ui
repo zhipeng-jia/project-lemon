@@ -110,9 +110,6 @@
                  <property name="text">
                   <string notr="true">gcc</string>
                  </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
                 </widget>
                </item>
                <item>
@@ -122,9 +119,6 @@
                  </property>
                  <property name="text">
                   <string notr="true">g++</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -136,9 +130,6 @@
                  <property name="text">
                   <string notr="true">fpc</string>
                  </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
                 </widget>
                </item>
                <item>
@@ -148,6 +139,9 @@
                  </property>
                  <property name="text">
                   <string notr="true">fbc</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>

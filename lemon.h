@@ -82,6 +82,7 @@ private slots:
     void addTasksAction();
     void makeSelfTest();
     void exportResult();
+    void generateReport();
     void aboutLemon();
     void setUiLanguage();
 

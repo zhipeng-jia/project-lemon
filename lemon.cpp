@@ -88,6 +88,8 @@ Lemon::Lemon(QWidget *parent) :
             this, SLOT(makeSelfTest()));
     connect(ui->exportAction, SIGNAL(triggered()),
             this, SLOT(exportResult()));
+    connect(ui->generateReportAction, SIGNAL(triggered()),
+            this, SLOT(generateReport()));
     connect(ui->aboutAction, SIGNAL(triggered()),
             this, SLOT(aboutLemon()));
     connect(ui->exitAction, SIGNAL(triggered()),
@@ -146,6 +148,25 @@ void Lemon::closeEvent(QCloseEvent *event)
 void Lemon::welcome()
 {
     if (settings->getCompilerList().size() == 0) {
+#ifdef Q_OS_WIN32
+        QString fbcPath;
+        if (QFileInfo("C:/Program Files/FreeBASIC/fbc.exe").exists()) {
+            fbcPath = "C:/Program Files/FreeBASIC/fbc.exe";
+        } else if (QFileInfo("C:/FreeBASIC/fbc.exe").exists()) {
+            fbcPath = "C:/FreeBASIC/fbc.exe";
+        } else {
+            fbcPath = QFileDialog::getOpenFileName(this, tr("Select Compiler\'s Location"),
+                                                   QDir::rootPath(), "fbc (fbc.exe)");
+        }
+        if (! fbcPath.isEmpty()) {
+            Compiler *compiler = new Compiler;
+            compiler->setCompilerName("fbc");
+            compiler->setCompilerLocation(fbcPath);
+            compiler->setSourceExtensions("bas");
+            compiler->addConfiguration("default", "%s.*", "");
+            settings->addCompiler(compiler);
+        }
+#else
         AddCompilerWizard *wizard = new AddCompilerWizard(this);
         if (wizard->exec() == QDialog::Accepted) {
             QList<Compiler*> compilerList = wizard->getCompilerList();
@@ -153,6 +174,7 @@ void Lemon::welcome()
                 settings->addCompiler(compilerList[i]);
         }
         delete wizard;
+#endif
     }
     
     WelcomeDialog *dialog = new WelcomeDialog(this);
@@ -393,6 +415,7 @@ void Lemon::loadContest(const QString &filePath)
     ui->addTasksAction->setEnabled(true);
     ui->makeSelfTestAction->setEnabled(true);
     ui->exportAction->setEnabled(true);
+    ui->generateReportAction->setEnabled(true);
     setWindowTitle(tr("Lemon - %1").arg(curContest->getContestTitle()));
     
     QApplication::restoreOverrideCursor();
@@ -426,6 +449,7 @@ void Lemon::newContest(const QString &title, const QString &savingName, const QS
     ui->addTasksAction->setEnabled(true);
     ui->makeSelfTestAction->setEnabled(true);
     ui->exportAction->setEnabled(true);
+    ui->generateReportAction->setEnabled(true);
     QStringList recentContest = settings->getRecentContest();
     recentContest.append(QDir::toNativeSeparators((QDir().absoluteFilePath(curFile))));
     settings->setRecentContest(recentContest);
@@ -454,6 +478,7 @@ void Lemon::closeAction()
     ui->addTasksAction->setEnabled(false);
     ui->makeSelfTestAction->setEnabled(false);
     ui->exportAction->setEnabled(false);
+    ui->generateReportAction->setEnabled(false);
     setWindowTitle(tr("Lemon"));
 }
 
@@ -1113,12 +1138,110 @@ void Lemon::exportResult()
     if (QFileInfo(fileName).suffix() == "xls") exportXls(fileName);
 }
 
+void Lemon::generateReport()
+{
+    QList<Contestant*> contestantList = curContest->getContestantList();
+    QList<Task*> taskList = curContest->getTaskList();
+    if (contestantList.isEmpty()) {
+        QMessageBox::warning(this, tr("Lemon"), tr("No contestant in current contest"), QMessageBox::Ok);
+        return;
+    }
+    if (taskList.isEmpty()) {
+        QMessageBox::warning(this, tr("Lemon"), tr("No task in current contest"), QMessageBox::Ok);
+        return;
+    }
+
+    QString filter = tr("HTML Document (*.html)");
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Generate Report"),
+                                                    QDir::currentPath() + QDir::separator() + "report", filter);
+    if (fileName.isEmpty()) return;
+
+    QFile file(fileName);
+    if (! file.open(QFile::WriteOnly)) {
+        QMessageBox::warning(this, tr("Lemon"), tr("Cannot open file %1").arg(QFileInfo(file).fileName()),
+                             QMessageBox::Ok);
+        return;
+    }
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    QTextStream out(&file);
+
+    out.setCodec("UTF-8");
+    out << "<html><head>";
+    out << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />";
+    out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em;}  hr {page-break-after:always;}</style>";
+    out << "<title>" << tr("Contest Report") << "</title>";
+    out << "</head><body>";
+
+    QList< QPair<int, QString> > sortList;
+    for (int i = 0; i < contestantList.size(); i ++) {
+        int totalScore = contestantList[i]->getTotalScore();
+        if (totalScore != -1)
+            sortList.append(qMakePair(-totalScore, contestantList[i]->getContestantName()));
+        else
+            sortList.append(qMakePair(1, contestantList[i]->getContestantName()));
+    }
+    qSort(sortList);
+    QMap<QString, int> rankList;
+    for (int i = 0; i < sortList.size(); i ++)
+        if (i > 0 && sortList[i].first == sortList[i-1].first)
+            rankList.insert(sortList[i].second, rankList[sortList[i-1].second]);
+        else
+            rankList.insert(sortList[i].second, i);
+
+    QMap<Contestant*, int> loc;
+    for (int i = 0; i < contestantList.size(); i ++)
+        loc.insert(contestantList[i], i);
+
+    out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
+    out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
+    out << "<p><table border=\"1\" cellpadding=\"1\"><tr>";
+    out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Rank"));
+    out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Name"));
+    for (int i = 0; i < taskList.size(); i ++)
+        out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(taskList[i]->getProblemTile());
+    out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th></tr>").arg(tr("Total Score"));
+
+    for (int i = 0; i < sortList.size(); i ++) {
+        Contestant *contestant = curContest->getContestant(sortList[i].second);
+        out << QString("<tr><td nowrap=\"nowrap\" align=\"center\">%1</td>")
+               .arg(rankList[contestant->getContestantName()] + 1);
+        out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>")
+               .arg(sortList[i].second);
+        for (int j = 0; j < taskList.size(); j ++) {
+            int score = contestant->getTaskScore(j);
+            if (score != -1)
+                out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score);
+            else
+                out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
+        }
+        int score = contestant->getTotalScore();
+        if (score != -1)
+            out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(score);
+        else
+            out << QString("<td nowrap=\"nowrap\" align=\"center\">%1</td>").arg(tr("Invalid"));
+    }
+    out << "</table></p>";
+
+    for (int i = 0; i < contestantList.size(); i ++) {
+        out << "<hr><span style=\"font-size:x-large; font-weight:bold;\">";
+        out << tr("Contestant: %1").arg(contestantList[i]->getContestantName()) << "</span>";
+        out << "<p><span style=\"font-size:large;\">" + tr("Contestant\'s signature: ______________") + "</span><br>";
+        out << "<span style=\"font-size:large;\">" + tr("Teacher\'s signature: ______________") + "</span><br></p>";
+        out << DetailDialog::getReportCode(curContest, contestantList[i]);
+    }
+    out << "</body></html>";
+
+    QApplication::restoreOverrideCursor();
+    QMessageBox::information(this, tr("Lemon"), tr("generating is done"), QMessageBox::Ok);
+}
+
 void Lemon::aboutLemon()
 {
     QString text;
     text += "<h2>Project Lemon</h2>";
     text += tr("A tiny judging environment for OI contest") + "<br>";
-    text += tr("Version 1.2 Beta") + "<br>";
+    text += tr("Version 1.1 Primary School Version") + "<br>";
     text += tr("Build Date: %1").arg(__DATE__) + "<br>";
     text += tr("Copyright (c) 2011 Zhipeng Jia") + "<br>";
     text += tr("This program is under the <a href=\"http://www.gnu.org/licenses/gpl-3.0.html\">GPLv3</a> license")

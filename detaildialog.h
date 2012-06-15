@@ -40,6 +40,7 @@ public:
     void refreshViewer(Contest*, Contestant*);
     void showDialog();
     static QString getCode(Contest*, Contestant*);
+    static QString getReportCode(Contest*, Contestant*);
 
 private:
     Ui::DetailDialog *ui;
