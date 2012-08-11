@@ -56,21 +56,18 @@ QString DetailDialog::getCode(Contest *contest, Contestant *contestant)
         if (taskList[i]->getTaskType() == Task::Traditional) {
             if (contestant->getCompileState(i) != CompileSuccessfully) {
                 switch (contestant->getCompileState(i)) {
-                    case NoValidSourceFile: {
+                    case NoValidSourceFile:
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot find valid source file"));
                         break;
-                    }
-                    case CompileTimeLimitExceeded: {
+                    case CompileTimeLimitExceeded:
                         htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: "))
                                     .arg(contestant->getSourceFile(i));
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
                         break;
-                    }
-                    case InvalidCompiler: {
+                    case InvalidCompiler:
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot run given compiler"));
                         break;
-                    }
-                    case CompileError: {
+                    case CompileError:
                         htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: "))
                                     .arg(contestant->getSourceFile(i));
                         htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
@@ -88,7 +85,6 @@ QString DetailDialog::getCode(Contest *contest, Contestant *contestant)
                         }
                         htmlCode += "</p>";
                         break;
-                    }
                 }
                 continue;
             }
@@ -209,7 +205,7 @@ QString DetailDialog::getReportCode(Contest *contest, Contestant *contestant)
 
     QList<Task*> taskList = contest->getTaskList();
     for (int i = 0; i < taskList.size(); i ++) {
-        htmlCode += "<p><span style=\"font-weight:bold; font-size:large;\">";
+        htmlCode += "<p><span style=\"font-weight:bold; font-size:medium;\">";
         htmlCode += QString("%1 %2</span><br>").arg(tr("Task")).arg(taskList[i]->getProblemTile());
 
         if (! contestant->getCheckJudged(i)) {
@@ -220,21 +216,18 @@ QString DetailDialog::getReportCode(Contest *contest, Contestant *contestant)
         if (taskList[i]->getTaskType() == Task::Traditional) {
             if (contestant->getCompileState(i) != CompileSuccessfully) {
                 switch (contestant->getCompileState(i)) {
-                    case NoValidSourceFile: {
+                    case NoValidSourceFile:
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot find valid source file"));
                         break;
-                    }
-                    case CompileTimeLimitExceeded: {
+                    case CompileTimeLimitExceeded:
                         htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: "))
                                     .arg(contestant->getSourceFile(i));
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
                         break;
-                    }
-                    case InvalidCompiler: {
+                    case InvalidCompiler:
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot run given compiler"));
                         break;
-                    }
-                    case CompileError: {
+                    case CompileError:
                         htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: "))
                                     .arg(contestant->getSourceFile(i));
                         htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
@@ -252,14 +245,13 @@ QString DetailDialog::getReportCode(Contest *contest, Contestant *contestant)
                         }
                         htmlCode += "</p>";
                         break;
-                    }
                 }
                 continue;
             }
             htmlCode += QString("&nbsp;&nbsp;%1%2").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
         }
 
-        htmlCode += "<table border=\"1\" cellpadding=\"1\"><tr>";
+        htmlCode += "<table table frame=\"void\"><tr>";
         htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Test Case"));
         htmlCode += QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Input File"));
         htmlCode += QString("<th scope=\"col\">%1</th>").arg(tr("Result"));
@@ -384,27 +376,23 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
         if (taskList[i]->getTaskType() == Task::Traditional) {
             if (contestant->getCompileState(i) != CompileSuccessfully) {
                 switch (contestant->getCompileState(i)) {
-                    case NoValidSourceFile: {
+                    case NoValidSourceFile:
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot find valid source file"));
                         break;
-                    }
-                    case CompileTimeLimitExceeded: {
+                    case CompileTimeLimitExceeded:
                         htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Compile time limit exceeded"));
                         break;
-                    }
-                    case InvalidCompiler: {
+                    case InvalidCompiler:
                         htmlCode += QString("&nbsp;&nbsp;%1</p>").arg(tr("Cannot run given compiler"));
                         break;
-                    }
-                    case CompileError: {
+                    case CompileError:
                         htmlCode += QString("&nbsp;&nbsp;%1%2<br>").arg(tr("Source file: ")).arg(contestant->getSourceFile(i));
                         htmlCode += QString("&nbsp;&nbsp;%1").arg(tr("Compile error"));
                         if (! contestant->getCompileMessage(i).isEmpty())
                             htmlCode += QString("<a href=\"CompileMessage %1\" style=\"text-decoration: none\"> (...)").arg(i);
                         htmlCode += "</p>";
                         break;
-                    }
                 }
                 continue;
             }
@@ -474,22 +462,25 @@ void DetailDialog::refreshViewer(Contest *_contest, Contestant *_contestant)
                 }
                 
                 htmlCode += QString("<td align=\"center\">%1").arg(text);
-                if (! message[j][k].isEmpty())
+                if (! message[j][k].isEmpty()) {
                     htmlCode += QString("<a href=\"Message %1 %2 %3\" style=\"text-decoration: none\"> (...)</a>").arg(i).arg(j).arg(k);
+                }
                 htmlCode += "</td>";
                 
                 htmlCode += "<td nowrap=\"nowrap\" align=\"center\">";
-                if (timeUsed[j][k] != -1)
+                if (timeUsed[j][k] != -1) {
                     htmlCode += QString("").sprintf("%.3lf s", double(timeUsed[j][k]) / 1000);
-                else
+                } else {
                     htmlCode += tr("Invalid");
+                }
                 htmlCode += "</td>";
                 
                 htmlCode += "<td nowrap=\"nowrap\" align=\"center\">";
-                if (memoryUsed[j][k] != -1)
+                if (memoryUsed[j][k] != -1) {
                     htmlCode += QString("").sprintf("%.3lf MB", double(memoryUsed[j][k]) / 1024 / 1024);
-                else
+                } else {
                     htmlCode += tr("Invalid");
+                }
                 htmlCode += "</td>";
                 
                 if (k == 0) {

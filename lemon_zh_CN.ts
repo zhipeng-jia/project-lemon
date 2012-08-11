@@ -1506,7 +1506,7 @@
         <location filename="lemon.cpp" line="1146"/>
         <location filename="lemon.cpp" line="1150"/>
         <location filename="lemon.cpp" line="1161"/>
-        <location filename="lemon.cpp" line="1236"/>
+        <location filename="lemon.cpp" line="1238"/>
         <source>Lemon</source>
         <translation type="unfinished">Lemon</translation>
     </message>
@@ -1752,7 +1752,7 @@
         <translation type="unfinished">导出成绩</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1244"/>
+        <location filename="lemon.cpp" line="1246"/>
         <source>Version 1.1 Primary School Version</source>
         <translation type="unfinished">v1.1 小学竞赛版</translation>
     </message>
@@ -1815,7 +1815,7 @@
     </message>
     <message>
         <location filename="lemon.cpp" line="957"/>
-        <location filename="lemon.cpp" line="1228"/>
+        <location filename="lemon.cpp" line="1229"/>
         <source>Contestant: %1</source>
         <translation type="unfinished">选手：%1</translation>
     </message>
@@ -1835,52 +1835,57 @@
         <translation type="unfinished">比赛成绩单</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1229"/>
+        <location filename="lemon.cpp" line="1230"/>
+        <source>Score: </source>
+        <translation type="unfinished">总分：</translation>
+    </message>
+    <message>
+        <location filename="lemon.cpp" line="1231"/>
         <source>Contestant&apos;s signature: ______________</source>
         <translation type="unfinished">选手签名：______________</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1230"/>
+        <location filename="lemon.cpp" line="1232"/>
         <source>Teacher&apos;s signature: ______________</source>
         <translation type="unfinished">教师签名：______________</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1236"/>
+        <location filename="lemon.cpp" line="1238"/>
         <source>generating is done</source>
         <translation type="unfinished">生成完毕</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1243"/>
+        <location filename="lemon.cpp" line="1245"/>
         <source>A tiny judging environment for OI contest</source>
         <translation type="unfinished">简易OI竞赛测试环境</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1245"/>
+        <location filename="lemon.cpp" line="1247"/>
         <source>Build Date: %1</source>
         <translation type="unfinished">构建日期：%1</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1246"/>
+        <location filename="lemon.cpp" line="1248"/>
         <source>Copyright (c) 2011 Zhipeng Jia</source>
         <translation type="unfinished">Copyright (c) 2011 Zhipeng Jia</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1247"/>
+        <location filename="lemon.cpp" line="1249"/>
         <source>This program is under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt; license</source>
         <translation type="unfinished">本程序基于&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GPLv3&lt;/a&gt;许可协议</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1249"/>
+        <location filename="lemon.cpp" line="1251"/>
         <source>Author&apos;s blog</source>
         <translation type="unfinished">作者博客</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1250"/>
+        <location filename="lemon.cpp" line="1252"/>
         <source>Google Code Page</source>
         <translation type="unfinished">Google Code页面</translation>
     </message>
     <message>
-        <location filename="lemon.cpp" line="1251"/>
+        <location filename="lemon.cpp" line="1253"/>
         <source>About Lemon</source>
         <translation type="unfinished">关于Lemon</translation>
     </message>

@@ -1169,7 +1169,7 @@ void Lemon::generateReport()
     out.setCodec("UTF-8");
     out << "<html><head>";
     out << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />";
-    out << "<style type=\"text/css\">th, td {padding-left: 1em; padding-right: 1em;}  hr {page-break-after:always;}</style>";
+    out << "<style type=\"text/css\">th, td {padding-left: 0.5em; padding-right: 0.5em;}  hr {page-break-after:always;}</style>";
     out << "<title>" << tr("Contest Report") << "</title>";
     out << "</head><body>";
 
@@ -1195,7 +1195,7 @@ void Lemon::generateReport()
 
     out << "<p><span style=\"font-size:x-large; font-weight:bold;\">";
     out << "<a name=\"top\"></a>" << tr("Rank List") << "</span></p>";
-    out << "<p><table border=\"1\" cellpadding=\"1\"><tr>";
+    out << "<p><table frame=\"void\"><tr>";
     out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Rank"));
     out << QString("<th scope=\"col\" nowrap=\"nowrap\">%1</th>").arg(tr("Name"));
     for (int i = 0; i < taskList.size(); i ++)
@@ -1224,10 +1224,12 @@ void Lemon::generateReport()
     out << "</table></p>";
 
     for (int i = 0; i < contestantList.size(); i ++) {
-        out << "<hr><span style=\"font-size:x-large; font-weight:bold;\">";
+        int score = contestantList[i]->getTotalScore();
+        out << "<hr><span style=\"font-size:large; font-weight:bold;\">";
         out << tr("Contestant: %1").arg(contestantList[i]->getContestantName()) << "</span>";
-        out << "<p><span style=\"font-size:large;\">" + tr("Contestant\'s signature: ______________") + "</span><br>";
-        out << "<span style=\"font-size:large;\">" + tr("Teacher\'s signature: ______________") + "</span><br></p>";
+        out << "<p><span style=\"font-size:medium;\">" + tr("Score: ") + QString("%1</p>").arg(score);
+        out << "<p><span style=\"font-size:medium;\">" + tr("Contestant\'s signature: ______________") + "</span><br></p>";
+        //out << "<span style=\"font-size:medium;\">" + tr("Teacher\'s signature: ______________") + "</span><br></p>";
         out << DetailDialog::getReportCode(curContest, contestantList[i]);
     }
     out << "</body></html>";
