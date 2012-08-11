@@ -48,7 +48,7 @@ SummaryTree::SummaryTree(QWidget *parent) :
     deleteTaskKeyAction->setShortcut(QKeySequence(Qt::Key_Delete));
     deleteTestCaseKeyAction->setShortcut(QKeySequence(Qt::Key_Delete));
     addTaskKeyAction->setEnabled(true);
-    addTestCaseAction->setEnabled(false);
+    addTestCaseKeyAction->setEnabled(false);
     deleteTaskKeyAction->setEnabled(false);
     deleteTestCaseKeyAction->setEnabled(false);
     addAction(addTaskKeyAction);
