@@ -197,7 +197,7 @@ void JudgingThread::compareLineByLine(const QString &contestantOutput)
         return;
     }
     
-    char str1[20], str2[20], ch;
+    char str1[20], str2[20]; int ch;
     bool chk1 = false, chk2 = false;
     bool chkEof1 = false, chkEof2 = false;
     int len1, len2;
@@ -299,7 +299,7 @@ void JudgingThread::compareIgnoreSpaces(const QString &contestantOutput)
         return;
     }
     
-    char ch1 = '\n', ch2 = '\n';
+    int ch1 = '\n', ch2 = '\n';
     char str1[20], str2[20];
     int flag1, flag2;
     while (true) {
