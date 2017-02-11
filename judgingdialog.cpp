@@ -93,7 +93,7 @@ void JudgingDialog::singleCaseFinished(int progress, int x, int y, int result)
     QString text;
     switch (ResultState(result)) {
         case CorrectAnswer: {
-            text = tr("Correct answer");
+            text = tr("Accept");
             charFormat.setForeground(QBrush(Qt::darkGreen));
             break;
         }
